@@ -38,9 +38,9 @@
 			game_state = game_state.map((cell, i) => undo[i] !== cell);
 		}}>Blast</button
 	>
-	<div class="grid aspect-square grid-cols-8 grid-rows-8 gap-2 bg-slate-900 p-2">
+	<div class="grid grid-cols-8 grid-rows-8 gap-2 bg-slate-900 p-2">
 		{#each game_state as _, i}
-			<div class="rounded-md bg-slate-800 min-w-10">
+			<div class="min-w-20 aspect-square rounded-md bg-slate-800">
 				<label
 					class="block h-full w-full cursor-pointer rounded-md has-[:checked]:bg-rose-500"
 					class:brightness-200={rows[Math.floor(i / 8)] || cols[i % 8]}
