@@ -20,39 +20,39 @@
 	<title>Block Blast Playground</title>
 </svelte:head>
 
-<div class="flex flex-col items-center">
-	<button
-		onclick={() => {
-			let undo = undo_stack.pop();
-			if (undo) {
-				game_state = game_state.map((cell, i) => undo[i] !== cell);
-			} else {
-				console.log('Nothing to undo!');
-			}
-		}}>Undo</button
-	>
-	<button
-		onclick={() => {
-			let undo = game_state.map((_, i) => rows[Math.floor(i / 8)] || cols[i % 8]);
-			undo_stack.push(undo);
+<button
+	class="m-auto block"
+	onclick={() => {
+		let undo = undo_stack.pop();
+		if (undo) {
 			game_state = game_state.map((cell, i) => undo[i] !== cell);
-		}}>Blast</button
-	>
-	<div class="grid grid-cols-8 grid-rows-8 gap-2 bg-slate-900 p-2">
-		{#each game_state as _, i}
-			<div class="min-w-20 aspect-square rounded-md bg-slate-800">
-				<label
-					class="block h-full w-full cursor-pointer rounded-md has-[:checked]:bg-rose-500"
-					class:brightness-200={rows[Math.floor(i / 8)] || cols[i % 8]}
-				>
-					<input
-						type="checkbox"
-						class="hidden"
-						bind:checked={game_state[i]}
-						onchange={() => undo_stack.push(game_state.map((_, j) => i == j))}
-					/>
-				</label>
-			</div>
-		{/each}
-	</div>
+		} else {
+			console.log('Nothing to undo!');
+		}
+	}}>Undo</button
+>
+<button
+	class="m-auto block"
+	onclick={() => {
+		let undo = game_state.map((_, i) => rows[Math.floor(i / 8)] || cols[i % 8]);
+		undo_stack.push(undo);
+		game_state = game_state.map((cell, i) => undo[i] !== cell);
+	}}>Blast</button
+>
+<div
+	class="m-auto grid aspect-square max-h-screen grid-cols-8 grid-rows-8 gap-1 bg-slate-900 p-1"
+>
+	{#each game_state as _, i}
+		<label
+			class="cursor-pointer rounded-sm bg-slate-800 transition has-[:checked]:bg-rose-500"
+			class:brightness-200={rows[Math.floor(i / 8)] || cols[i % 8]}
+		>
+			<input
+				type="checkbox"
+				class="hidden"
+				bind:checked={game_state[i]}
+				onchange={() => undo_stack.push(game_state.map((_, j) => i == j))}
+			/>
+		</label>
+	{/each}
 </div>
