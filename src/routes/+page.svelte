@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Cell from '../Cell.svelte';
+
 	let game_state = $state(Array.from({ length: 64 }, () => false));
 
 	let rows = $derived(
@@ -39,20 +41,14 @@
 		game_state = game_state.map((cell, i) => undo[i] !== cell);
 	}}>Blast</button
 >
-<div
-	class="m-auto grid aspect-square max-h-screen grid-cols-8 grid-rows-8 gap-1 bg-slate-900 p-1"
->
+<div class="m-auto grid aspect-square max-h-screen grid-cols-8 grid-rows-8 gap-1 bg-slate-900 p-1">
 	{#each game_state as _, i}
-		<label
-			class="cursor-pointer rounded-sm bg-slate-800 transition has-[:checked]:bg-rose-500"
-			class:brightness-200={rows[Math.floor(i / 8)] || cols[i % 8]}
-		>
-			<input
-				type="checkbox"
-				class="hidden"
-				bind:checked={game_state[i]}
-				onchange={() => undo_stack.push(game_state.map((_, j) => i == j))}
-			/>
-		</label>
+		<Cell
+			is_bright={rows[Math.floor(i / 8)] || cols[i % 8]}
+			bind:checked={game_state[i]}
+			onchange={() => {
+				undo_stack.push(game_state.map((_, j) => i === j));
+			}}
+		/>
 	{/each}
 </div>
