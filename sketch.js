@@ -54,7 +54,7 @@ function draw() {
       rect(j * 50, i * 50, 50, 50);
     }
   }
-  if (mouseIsPressed && mouseButton === LEFT) {
+  if (mouseIsPressed) {
     let x = pmouseX;
     let y = pmouseY;
     const dx = mouseX - x;
